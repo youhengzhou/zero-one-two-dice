@@ -2,10 +2,72 @@
 <html>
   <head>
     <title>Dice Rolling Simulation</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+
+      #numOfDice {
+        margin-bottom: 20px;
+        padding: 5px;
+        font-size: 16px;
+      }
+
+      #rollButton {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+
+      #rollButton:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      #rerollButton {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+
+      #rerollButton:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      #results {
+        margin-bottom: 20px;
+      }
+
+      #diceImage {
+        max-width: 100px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     Number of Dice: <input type="number" id="numOfDice" min="0" />
     <button id="rollButton" onclick="handleButtonClick()">Roll</button>
+    <button id="rerollButton" onclick="rerollDice()" disabled>Reroll</button>
     <div id="results"></div>
     <img id="diceImage" src="" style="display: none" />
 
@@ -15,6 +77,8 @@
       var total = 0; // total sum of rolls
 
       function handleButtonClick() {
+        document.getElementById("rerollButton").disabled = true;
+
         // If this is the first click, get the number of rolls
         if (currentRoll === 0) {
           num = document.getElementById("numOfDice").value;
@@ -54,8 +118,21 @@
           document.getElementById("rollButton").disabled = true;
           currentRoll = 0;
           total = 0;
-          //   diceImage.style.display = "none"; // hide dice image
+          document.getElementById("rerollButton").disabled = false;
         }
+      }
+
+      function rerollDice() {
+        // Enable the roll button and reset the state
+        document.getElementById("rollButton").disabled = false;
+        document.getElementById("rollButton").textContent = "Roll";
+        currentRoll = 0;
+        total = 0;
+
+        // Clear the results div and reset the image
+        document.getElementById("results").textContent = "";
+        document.getElementById("diceImage").src = "";
+        document.getElementById("diceImage").style.display = "none";
       }
     </script>
   </body>
